@@ -1,0 +1,5 @@
+env = gwendolen.simple.SimpleEnv
+mas.file = suave.gwen
+mas.builder = gwendolen.GwendolenMASBuilder
+
+log.warning = ail.mas.DefaultEnvironment

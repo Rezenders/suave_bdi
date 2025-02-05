@@ -1,0 +1,32 @@
+GWENDOLEN
+
+:name: bluerov
+
+:Initial Beliefs:
+
+pipeline_found(False)
+pipeline_inspected(False)
+motor_armed(False)
+mode("UNKOWN")
+
+:Reasoning Rules:
+
+:Initial Goals:
+start_inspection_mission [achieve]
+
+:Plans:
+
++!start_inspection_mission [achieve] : {True} <- 
+  arm_motors, setMode(Guided), !searchPipeline, !inspectPipeline;
+
++!inspectPipeline [achieve] : {pipeline_found(True)} <- inspect_pipeline;
++inspect_pipeline : {True} <- +pipeline_inspected(True), print(inspected);
+
++!searchPipeline [achieve] : {} <- search_pipeline;
++search_pipeline : {True} <- +pipeline_found(True), print(found);
+
++!armMotor : not state(_,_,"True") <-	arm_motors(True);
++arm_motors : {True} <- +state(_,_,"True"), print(armed);
+
++!setMode(Mode) : not state(Mode,_,_)	<- set_mode(Mode);
++set_mode(Mode) : {True} <- +state(Mode,_,_), print(Mode);
