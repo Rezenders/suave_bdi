@@ -8,8 +8,14 @@ docker pull rezenders/suave_bdi
 
 ## Build docker image
 
+On linux:
 ```bash
-docker build --tag suave_bdi .
+docker build --platform linux/amd64--tag suave_bdi .
+```
+
+On Mac:
+```bash
+docker build --platform linux/arm64--tag suave_bdi .
 ```
 
 ## Run docker image

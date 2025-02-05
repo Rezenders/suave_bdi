@@ -1,4 +1,5 @@
 FROM tiryoh/ros2-desktop-vnc:humble
+ARG TARGETARCH
 
 ENV DEBIAN_FRONTEND=noninteractive
 
@@ -144,7 +145,7 @@ ENV LANG=en_US.UTF-8
 ENV LANGUAGE=en_US:en
 ENV LC_ALL=en_US.UTF-8
 
-ENV JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64
+ENV JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-$TARGETARCH
 
 ## Install rosbridge-server
 RUN sudo apt update && sudo apt install -y \
@@ -167,5 +168,6 @@ RUN echo "mcapl = $HOME/mcapl" >> $HOME/.jpf/site.properties
 
 ENV AJPF_HOME=$HOME/mcapl
 ENV CLASSPATH=$HOME/mcapl/bin
+ENV CLASSPATH=${CLASSPATH}:$HOME/mcapl/lib/3rdparty/*
 WORKDIR $HOME/mcapl
 RUN ant compile && ant build
