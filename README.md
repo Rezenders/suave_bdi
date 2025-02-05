@@ -3,6 +3,7 @@
 ## Download docker image
 
 ```bash
+docker pull rezenders/suave_bdi
 ```
 
 ## Build docker image

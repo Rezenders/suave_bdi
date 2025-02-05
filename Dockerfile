@@ -140,12 +140,11 @@ ENV PATH="$M2_HOME/bin:$PATH"
 # Set the locale
 RUN sed -i '/en_US.UTF-8/s/^# //g' /etc/locale.gen && \
     locale-gen
-ENV LANG en_US.UTF-8
-ENV LANGUAGE en_US:en
-ENV LC_ALL en_US.UTF-8
+ENV LANG=en_US.UTF-8
+ENV LANGUAGE=en_US:en
+ENV LC_ALL=en_US.UTF-8
 
 ENV JAVA_HOME=/usr/lib/jvm/java-1.11.0-openjdk-amd64
-# ENV JAVA_HOME=/usr/bin/java
 
 ## Install rosbridge-server
 RUN sudo apt update && sudo apt install -y \
@@ -159,12 +158,14 @@ RUN mvn compile && mvn package && mvn install
 
 ## Install MCAPL
 WORKDIR $HOME
-# RUN git clone https://github.com/mcapl/mcapl.git --branch mcapl2024
 RUN git clone https://github.com/mcapl/mcapl.git
+WORKDIR $HOME/mcapl
+RUN git checkout 0dd08141423994de764b919ace2b70c7e61b1d20  
+
 RUN mkdir -p $HOME/.jpf && touch $HOME/.jpf/site.properties
 RUN echo "mcapl = $HOME/mcapl" >> $HOME/.jpf/site.properties
 
-ENV AJPF_HOME=$HOME/macpl
-ENV CLASSPATH=$HOME/macpl/bin
+ENV AJPF_HOME=$HOME/mcapl
+ENV CLASSPATH=$HOME/mcapl/bin
 WORKDIR $HOME/mcapl
-# RUN ant compile && ant build
+RUN ant compile && ant build
